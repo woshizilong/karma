@@ -2,12 +2,21 @@ import React from "react";
 
 import { mount } from "enzyme";
 
-import { PressKey } from "__mocks__/KeyPress";
+import {
+  InterceptWindowEventListener,
+  DispatchKeyEvent
+} from "__mocks__/PressKey";
 import { PageSelect } from ".";
+
+afterEach(() => {
+  jest.resetAllMocks();
+});
 
 describe("<PageSelect />", () => {
   it("calls setPageCallback on arrow key press", () => {
     const setPageCallback = jest.fn();
+
+    const evMap = InterceptWindowEventListener();
 
     const tree = mount(
       <PageSelect
@@ -24,28 +33,28 @@ describe("<PageSelect />", () => {
       tree.setProps({ activePage: val })
     );
 
-    PressKey(tree, "ArrowRight", 39);
+    DispatchKeyEvent(tree.getDOMNode(), evMap, "ArrowRight", 39);
     expect(setPageCallback).toHaveBeenLastCalledWith(2);
 
-    PressKey(tree, "ArrowRight", 39);
+    DispatchKeyEvent(tree.getDOMNode(), evMap, "ArrowRight", 39);
     expect(setPageCallback).toHaveBeenLastCalledWith(3);
 
-    PressKey(tree, "ArrowRight", 39);
+    DispatchKeyEvent(tree.getDOMNode(), evMap, "ArrowRight", 39);
     expect(setPageCallback).toHaveBeenLastCalledWith(4);
 
-    PressKey(tree, "ArrowRight", 39);
+    DispatchKeyEvent(tree.getDOMNode(), evMap, "ArrowRight", 39);
     expect(setPageCallback).toHaveBeenLastCalledWith(4);
 
-    PressKey(tree, "ArrowLeft", 37);
+    DispatchKeyEvent(tree.getDOMNode(), evMap, "ArrowLeft", 37);
     expect(setPageCallback).toHaveBeenLastCalledWith(3);
 
-    PressKey(tree, "ArrowLeft", 37);
+    DispatchKeyEvent(tree.getDOMNode(), evMap, "ArrowLeft", 37);
     expect(setPageCallback).toHaveBeenLastCalledWith(2);
 
-    PressKey(tree, "ArrowLeft", 37);
+    DispatchKeyEvent(tree.getDOMNode(), evMap, "ArrowLeft", 37);
     expect(setPageCallback).toHaveBeenLastCalledWith(1);
 
-    PressKey(tree, "ArrowLeft", 37);
+    DispatchKeyEvent(tree.getDOMNode(), evMap, "ArrowLeft", 37);
     expect(setPageCallback).toHaveBeenLastCalledWith(1);
   });
 });

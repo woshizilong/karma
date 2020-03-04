@@ -7,7 +7,7 @@ import { observable } from "mobx";
 
 import { disableBodyScroll, clearAllBodyScrollLocks } from "body-scroll-lock";
 
-import { HotKeys } from "react-hotkeys";
+import { Keyboard, KeyCombo } from "@reasonink/clack-react";
 
 import {
   MountModal,
@@ -31,14 +31,13 @@ const Modal = observer(
     constructor(props) {
       super(props);
       this.modalRef = React.createRef();
-      this.HotKeysRef = React.createRef();
       this.lastIsOpen = observable.box(false);
     }
 
     toggleBodyClass = isOpen => {
       document.body.classList.toggle("modal-open", isOpen);
       if (isOpen) {
-        this.HotKeysRef.current.focus();
+        this.modalRef.current.focus();
         disableBodyScroll(this.modalRef.current);
       } else {
         clearAllBodyScrollLocks();
@@ -88,21 +87,25 @@ const Modal = observer(
             className="modal-open"
             {...props}
           >
-            <HotKeys
-              innerRef={this.HotKeysRef}
-              keyMap={{ CLOSE: "Escape" }}
-              handlers={{ CLOSE: toggleOpen }}
-            >
-              <div ref={this.modalRef} className="modal d-block" role="dialog">
+            <div>
+              <Keyboard>
+                <KeyCombo c="esc" onPress={toggleOpen} />
                 <div
-                  className={`modal-dialog modal-${size} ${isUpper &&
-                    "modal-upper shadow"}`}
-                  role="document"
+                  ref={this.modalRef}
+                  className="modal d-block"
+                  role="dialog"
+                  tabIndex={-1}
                 >
-                  <div className="modal-content">{children}</div>
+                  <div
+                    className={`modal-dialog modal-${size} ${isUpper &&
+                      "modal-upper shadow"}`}
+                    role="document"
+                  >
+                    <div className="modal-content">{children}</div>
+                  </div>
                 </div>
-              </div>
-            </HotKeys>
+              </Keyboard>
+            </div>
           </MountModal>
           <MountModalBackdrop in={isOpen} unmountOnExit>
             <div className="modal-backdrop d-block" />

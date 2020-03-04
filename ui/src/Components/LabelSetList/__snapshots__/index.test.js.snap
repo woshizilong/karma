@@ -50,9 +50,11 @@ exports[`<LabelSetList /> matches snapshot with populated list 1`] = `
       </li>
     </ul>
   </div>
-  <div tabindex=\\"-1\\"
-       class=\\"components-pagination\\"
-  >
+  <div class=\\"keyboard\\">
+    <div class=\\"components-pagination\\"
+         tabindex=\\"-1\\"
+    >
+    </div>
   </div>
 </div>
 "

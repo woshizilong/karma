@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-import { HotKeys } from "react-hotkeys";
+import { Keyboard, KeyCombo } from "@reasonink/clack-react";
 
 import Pagination from "react-js-pagination";
 
@@ -22,7 +22,7 @@ class PageSelect extends Component {
 
   constructor(props) {
     super(props);
-    this.HotKeysRef = React.createRef();
+    this.paginationRef = React.createRef();
   }
 
   onPageUp = () => {
@@ -36,7 +36,7 @@ class PageSelect extends Component {
   };
 
   componentDidMount() {
-    this.HotKeysRef.current.focus();
+    this.paginationRef.current.focus();
   }
 
   render() {
@@ -49,40 +49,37 @@ class PageSelect extends Component {
     } = this.props;
 
     return (
-      <HotKeys
-        className="components-pagination"
-        innerRef={this.HotKeysRef}
-        keyMap={{
-          onArrowLeft: "ArrowLeft",
-          onArrowRight: "ArrowRight"
-        }}
-        handlers={{
-          onArrowLeft: this.onPageDown,
-          onArrowRight: this.onPageUp
-        }}
-      >
-        {totalItemsCount > maxPerPage ? (
-          <div className="mt-3">
-            <Pagination
-              activePage={activePage}
-              itemsCountPerPage={maxPerPage}
-              totalItemsCount={totalItemsCount}
-              pageRangeDisplayed={5}
-              onChange={setPageCallback}
-              hideFirstLastPages={totalPages < 10}
-              innerClass="pagination justify-content-center"
-              itemClass="page-item"
-              linkClass="page-link"
-              activeClass="active"
-              activeLinkClass="font-weight-bold"
-              prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
-              nextPageText={<FontAwesomeIcon icon={faAngleRight} />}
-              firstPageText={<FontAwesomeIcon icon={faAngleDoubleLeft} />}
-              lastPageText={<FontAwesomeIcon icon={faAngleDoubleRight} />}
-            />
-          </div>
-        ) : null}
-      </HotKeys>
+      <Keyboard>
+        <KeyCombo c="left" onPress={this.onPageDown} />
+        <KeyCombo c="right" onPress={this.onPageUp} />
+        <div
+          ref={this.paginationRef}
+          className="components-pagination"
+          tabIndex={-1}
+        >
+          {totalItemsCount > maxPerPage ? (
+            <div className="mt-3">
+              <Pagination
+                activePage={activePage}
+                itemsCountPerPage={maxPerPage}
+                totalItemsCount={totalItemsCount}
+                pageRangeDisplayed={5}
+                onChange={setPageCallback}
+                hideFirstLastPages={totalPages < 10}
+                innerClass="pagination justify-content-center"
+                itemClass="page-item"
+                linkClass="page-link"
+                activeClass="active"
+                activeLinkClass="font-weight-bold"
+                prevPageText={<FontAwesomeIcon icon={faAngleLeft} />}
+                nextPageText={<FontAwesomeIcon icon={faAngleRight} />}
+                firstPageText={<FontAwesomeIcon icon={faAngleDoubleLeft} />}
+                lastPageText={<FontAwesomeIcon icon={faAngleDoubleRight} />}
+              />
+            </div>
+          ) : null}
+        </div>
+      </Keyboard>
     );
   }
 }

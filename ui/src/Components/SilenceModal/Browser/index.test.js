@@ -8,7 +8,10 @@ import moment from "moment";
 import { advanceTo, clear } from "jest-date-mock";
 
 import { MockSilence } from "__mocks__/Alerts";
-import { PressKey } from "__mocks__/KeyPress";
+import {
+  InterceptWindowEventListener,
+  DispatchKeyEvent
+} from "__mocks__/PressKey";
 import { AlertStore } from "Stores/AlertStore";
 import { Settings } from "Stores/Settings";
 import { SilenceFormStore } from "Stores/SilenceFormStore";
@@ -214,6 +217,8 @@ describe("<Browser />", () => {
   });
 
   it("renders next/previous page after arrow key press", async () => {
+    InterceptWindowEventListener();
+
     fetch.mockResponse(JSON.stringify(MockSilenceList(11)));
     const tree = MountedBrowser();
     await expect(tree.instance().dataSource.fetch).resolves.toBeUndefined();
@@ -224,27 +229,28 @@ describe("<Browser />", () => {
     const paginator = tree.find(".components-pagination").at(0);
     paginator.simulate("focus");
 
-    PressKey(paginator, "ArrowRight", 39);
+    DispatchKeyEvent(paginator.getDOMNode(), "ArrowRight", 39);
     expect(tree.instance().pagination.activePage).toBe(2);
     expect(tree.find("ManagedSilence")).toHaveLength(5);
 
-    PressKey(paginator, "ArrowRight", 39);
+    DispatchKeyEvent(paginator.getDOMNode(), "ArrowRight", 39);
+
     expect(tree.instance().pagination.activePage).toBe(3);
     expect(tree.find("ManagedSilence")).toHaveLength(1);
 
-    PressKey(paginator, "ArrowRight", 39);
+    DispatchKeyEvent(paginator.getDOMNode(), "ArrowRight", 39);
     expect(tree.instance().pagination.activePage).toBe(3);
     expect(tree.find("ManagedSilence")).toHaveLength(1);
 
-    PressKey(paginator, "ArrowLeft", 37);
+    DispatchKeyEvent(paginator.getDOMNode(), "ArrowLeft", 37);
     expect(tree.instance().pagination.activePage).toBe(2);
     expect(tree.find("ManagedSilence")).toHaveLength(5);
 
-    PressKey(paginator, "ArrowLeft", 37);
+    DispatchKeyEvent(paginator.getDOMNode(), "ArrowLeft", 37);
     expect(tree.instance().pagination.activePage).toBe(1);
     expect(tree.find("ManagedSilence")).toHaveLength(5);
 
-    PressKey(paginator, "ArrowLeft", 37);
+    DispatchKeyEvent(paginator.getDOMNode(), "ArrowLeft", 37);
     expect(tree.instance().pagination.activePage).toBe(1);
     expect(tree.find("ManagedSilence")).toHaveLength(5);
   });
