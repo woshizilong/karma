@@ -667,7 +667,7 @@ describe("<AlertGrid />", () => {
     expect(tree.find("Grid").at(0).prop("outerPadding")).toBe(5);
     expect(tree.find("Grid").at(1).prop("outerPadding")).toBe(5);
     expect(
-      tree.find("Grid").at(0).find("div").at(3).prop("style")
+      tree.find("Grid").at(0).find("div").at(4).prop("style")
     ).toMatchObject({
       paddingLeft: "5px",
       paddingRight: "5px",

@@ -2,14 +2,13 @@ import React from "react";
 import PropTypes from "prop-types";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faChevronUp } from "@fortawesome/free-solid-svg-icons/faChevronUp";
-import { faChevronDown } from "@fortawesome/free-solid-svg-icons/faChevronDown";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons/faExternalLinkAlt";
 import { faBellSlash } from "@fortawesome/free-solid-svg-icons/faBellSlash";
 
 import { APISilence } from "Models/API";
 import { AlertStore } from "Stores/AlertStore";
 import { FilteringCounterBadge } from "Components/Labels/FilteringCounterBadge";
+import { ToggleIcon } from "Components/ToggleIcon";
 import { SilenceProgress } from "./SilenceProgress";
 
 const SilenceComment = ({
@@ -89,13 +88,14 @@ const SilenceComment = ({
               alwaysVisible={alertCountAlwaysVisible}
               defaultColor="primary"
             />
-            <FontAwesomeIcon
-              icon={collapsed ? faChevronUp : faChevronDown}
+            <span
+              onClick={collapseToggle}
               className={`components-managed-silence-icon ${
                 alertCount && alertCountAlwaysVisible && "my-sm-auto mt-2 mb-0"
               } ml-sm-2 ml-auto mr-sm-0 mr-1 text-muted cursor-pointer`}
-              onClick={collapseToggle}
-            />
+            >
+              <ToggleIcon isOpen={!collapsed} />
+            </span>
           </div>
         </div>
       </div>

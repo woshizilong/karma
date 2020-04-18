@@ -80,7 +80,7 @@ describe("<ManagedSilence />", () => {
 
   it("clicking on expand toggle shows silence details", () => {
     const tree = MountedManagedSilence();
-    const toggle = tree.find("svg.text-muted.cursor-pointer");
+    const toggle = tree.find(".text-muted.cursor-pointer");
     toggle.simulate("click");
     const details = tree.find("SilenceDetails");
     expect(details).toHaveLength(1);
