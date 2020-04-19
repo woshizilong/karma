@@ -35,8 +35,7 @@ const validateStyle = (value, themed) => {
       themed={themed}
     />
   );
-  // opacity=>1 is set by react-reveal/Flash
-  expect(tree.find("span").prop("style")).toEqual({ opacity: 1 });
+  expect(tree.find("span").prop("style")).toEqual({});
 };
 
 const validateOnClick = (value, themed) => {
@@ -49,7 +48,7 @@ const validateOnClick = (value, themed) => {
       themed={themed}
     />
   );
-  tree.find(".components-label").simulate("click");
+  tree.find("span.components-label").simulate("click");
   expect(alertStore.filters.values).toHaveLength(1);
   expect(alertStore.filters.values).toContainEqual(
     NewUnappliedFilter(`@state=${value}`)

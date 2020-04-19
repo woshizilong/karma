@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { observer } from "mobx-react";
 
-import Flash from "react-reveal/Flash";
+import { motion } from "framer-motion";
 
 import { AlertStore } from "Stores/AlertStore";
 import { TooltipWrapper } from "Components/TooltipWrapper";
@@ -49,23 +49,23 @@ const FilteringCounterBadge = observer(
         <TooltipWrapper
           title={`Click to only show ${name}=${value} alerts or Alt+Click to hide them`}
         >
-          <Flash spy={counter}>
-            <span
-              className={
-                themed
-                  ? cs.className
-                  : [
-                      `badge-${defaultColor}`,
-                      "badge-pill components-label-with-hover",
-                      ...cs.baseClassNames,
-                    ].join(" ")
-              }
-              style={themed ? {} : cs.style}
-              onClick={(e) => this.handleClick(e)}
-            >
-              {counter}
-            </span>
-          </Flash>
+          <motion.span
+            key={counter}
+            animate={{ opacity: [1, 0, 1, 0, 1] }}
+            className={
+              themed
+                ? cs.className
+                : [
+                    `badge-${defaultColor}`,
+                    "badge-pill components-label-with-hover",
+                    ...cs.baseClassNames,
+                  ].join(" ")
+            }
+            style={themed ? {} : cs.style}
+            onClick={(e) => this.handleClick(e)}
+          >
+            {counter}
+          </motion.span>
         </TooltipWrapper>
       );
     }

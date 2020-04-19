@@ -29,7 +29,7 @@ exports[`<GroupFooter /> matches snapshot 1`] = `
           summary:
         </span>
         <span class=\\"Linkify\\">
-          <span style=\\"opacity: 1;\\">
+          <span>
             This is summary
           </span>
         </span>
@@ -174,7 +174,7 @@ exports[`<GroupFooter /> mathes snapshot when silence is rendered 1`] = `
           summary:
         </span>
         <span class=\\"Linkify\\">
-          <span style=\\"opacity: 1;\\">
+          <span>
             This is summary
           </span>
         </span>

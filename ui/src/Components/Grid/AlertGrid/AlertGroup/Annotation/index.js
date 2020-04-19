@@ -6,7 +6,7 @@ import { observer } from "mobx-react";
 
 import Linkify from "react-linkify";
 
-import Flash from "react-reveal/Flash";
+import { motion } from "framer-motion";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons/faExternalLinkAlt";
@@ -92,9 +92,9 @@ const RenderNonLinkAnnotation = observer(
                 rel: "noopener noreferrer",
               }}
             >
-              <Flash spy={value}>
-                <span>{value}</span>
-              </Flash>
+              <motion.span key={value} animate={{ opacity: [1, 0, 1, 0, 1] }}>
+                {value}
+              </motion.span>
             </Linkify>
           </div>
         </TooltipWrapper>
