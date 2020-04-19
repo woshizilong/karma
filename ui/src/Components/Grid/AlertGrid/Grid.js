@@ -6,7 +6,7 @@ import { observer } from "mobx-react";
 
 import debounce from "lodash/debounce";
 
-import { Fade } from "react-reveal";
+import { motion } from "framer-motion";
 
 import FontFaceObserver from "fontfaceobserver";
 
@@ -182,60 +182,59 @@ const Grid = observer(
       return (
         <React.Fragment>
           {grid.labelName !== "" && (
-            <Fade
-              in={this.context.animations.in}
+            <motion.h5
+              animate={{ opacity: [0, 1] }}
               duration={this.context.animations.duration}
+              className="components-grid-swimlane d-flex flex-row justify-content-between rounded px-2 py-1 mt-2 mb-0 border border-dark"
             >
-              <h5 className="components-grid-swimlane d-flex flex-row justify-content-between rounded px-2 py-1 mt-2 mb-0 border border-dark">
+              <span
+                className="flex-shrink-1 flex-grow-1"
+                style={{ minWidth: "0px" }}
+              >
+                <span className="badge components-label px-0 ml-0 mr-3">
+                  <FontAwesomeIcon icon={faTh} className="text-muted" />
+                </span>
+                {grid.labelName !== "" && grid.labelValue !== "" && (
+                  <FilteringLabel
+                    key={grid.labelValue}
+                    name={grid.labelName}
+                    value={grid.labelValue}
+                    alertStore={alertStore}
+                  />
+                )}
+              </span>
+              <span className="flex-shrink-0 flex-grow-0 ml-2 mr-0">
+                <FilteringCounterBadge
+                  name="@state"
+                  value="unprocessed"
+                  counter={grid.stateCount.unprocessed}
+                  themed={true}
+                  alertStore={alertStore}
+                />
+                <FilteringCounterBadge
+                  name="@state"
+                  value="suppressed"
+                  counter={grid.stateCount.suppressed}
+                  themed={true}
+                  alertStore={alertStore}
+                />
+                <FilteringCounterBadge
+                  name="@state"
+                  value="active"
+                  counter={grid.stateCount.active}
+                  themed={true}
+                  alertStore={alertStore}
+                />
                 <span
-                  className="flex-shrink-1 flex-grow-1"
-                  style={{ minWidth: "0px" }}
+                  className="text-muted cursor-pointer badge px-0 components-label ml-2 mr-0"
+                  onClick={this.onCollapseClick}
                 >
-                  <span className="badge components-label px-0 ml-0 mr-3">
-                    <FontAwesomeIcon icon={faTh} className="text-muted" />
-                  </span>
-                  {grid.labelName !== "" && grid.labelValue !== "" && (
-                    <FilteringLabel
-                      key={grid.labelValue}
-                      name={grid.labelName}
-                      value={grid.labelValue}
-                      alertStore={alertStore}
-                    />
-                  )}
+                  <TooltipWrapper title="Click to toggle this grid details or Alt+Click to toggle all grids">
+                    <ToggleIcon isOpen={this.gridToggle.show} />
+                  </TooltipWrapper>
                 </span>
-                <span className="flex-shrink-0 flex-grow-0 ml-2 mr-0">
-                  <FilteringCounterBadge
-                    name="@state"
-                    value="unprocessed"
-                    counter={grid.stateCount.unprocessed}
-                    themed={true}
-                    alertStore={alertStore}
-                  />
-                  <FilteringCounterBadge
-                    name="@state"
-                    value="suppressed"
-                    counter={grid.stateCount.suppressed}
-                    themed={true}
-                    alertStore={alertStore}
-                  />
-                  <FilteringCounterBadge
-                    name="@state"
-                    value="active"
-                    counter={grid.stateCount.active}
-                    themed={true}
-                    alertStore={alertStore}
-                  />
-                  <span
-                    className="text-muted cursor-pointer badge px-0 components-label ml-2 mr-0"
-                    onClick={this.onCollapseClick}
-                  >
-                    <TooltipWrapper title="Click to toggle this grid details or Alt+Click to toggle all grids">
-                      <ToggleIcon isOpen={this.gridToggle.show} />
-                    </TooltipWrapper>
-                  </span>
-                </span>
-              </h5>
-            </Fade>
+              </span>
+            </motion.h5>
           )}
           <MasonryInfiniteScroller
             key={settingsStore.gridConfig.config.groupWidth}
