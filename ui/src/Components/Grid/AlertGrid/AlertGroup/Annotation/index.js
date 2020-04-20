@@ -6,8 +6,6 @@ import { observer } from "mobx-react";
 
 import Linkify from "react-linkify";
 
-import { motion } from "framer-motion";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faExternalLinkAlt } from "@fortawesome/free-solid-svg-icons/faExternalLinkAlt";
 import { faSearchPlus } from "@fortawesome/free-solid-svg-icons/faSearchPlus";
@@ -15,6 +13,7 @@ import { faSearchMinus } from "@fortawesome/free-solid-svg-icons/faSearchMinus";
 
 import { AlertStore } from "Stores/AlertStore";
 import { TooltipWrapper } from "Components/TooltipWrapper";
+import { Flash } from "Components/Animations/Flash";
 
 const RenderNonLinkAnnotation = observer(
   class RenderNonLinkAnnotation extends Component {
@@ -92,9 +91,7 @@ const RenderNonLinkAnnotation = observer(
                 rel: "noopener noreferrer",
               }}
             >
-              <motion.span key={value} animate={{ opacity: [1, 0, 1, 0, 1] }}>
-                {value}
-              </motion.span>
+              <Flash spyOn={value}>{value}</Flash>
             </Linkify>
           </div>
         </TooltipWrapper>

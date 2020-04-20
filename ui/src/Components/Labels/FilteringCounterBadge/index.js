@@ -3,11 +3,10 @@ import PropTypes from "prop-types";
 
 import { observer } from "mobx-react";
 
-import { motion } from "framer-motion";
-
 import { AlertStore } from "Stores/AlertStore";
 import { TooltipWrapper } from "Components/TooltipWrapper";
 import { BaseLabel } from "Components/Labels/BaseLabel";
+import { Flash } from "Components/Animations/Flash";
 
 // Same as FilteringLabel but for labels that are counters (usually @state)
 // and only renders a pill badge with the counter, it doesn't render anything
@@ -49,9 +48,8 @@ const FilteringCounterBadge = observer(
         <TooltipWrapper
           title={`Click to only show ${name}=${value} alerts or Alt+Click to hide them`}
         >
-          <motion.span
-            key={counter}
-            animate={{ opacity: [1, 0, 1, 0, 1] }}
+          <Flash
+            spyOn={counter}
             className={
               themed
                 ? cs.className
@@ -65,7 +63,7 @@ const FilteringCounterBadge = observer(
             onClick={(e) => this.handleClick(e)}
           >
             {counter}
-          </motion.span>
+          </Flash>
         </TooltipWrapper>
       );
     }
